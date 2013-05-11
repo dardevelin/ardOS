@@ -32,10 +32,10 @@
 
 TOSSema sem1, sem2;
 
+/* This program demonstrates the use of binary semaphores for coordinating tasks. It assumes that LEDs are conencted to pins 6 and 9 */
+
 void task1(void *p)
 {
-	/*unsigned int i=0;
-	unsigned int j = (unsigned int) p;*/
 	while(1)
 	{
 		// Flash 5 times
@@ -50,10 +50,10 @@ void task1(void *p)
 		
 		digitalWrite(6, LOW);
 		// Release semaphore
-		//OSGiveSema(&sem1);
+		OSGiveSema(&sem1);
 		
 		// Wait for sem2 to be released
-		//OSTakeSema(&sem2);
+		OSTakeSema(&sem2);
 	}
 }
 
@@ -65,7 +65,7 @@ void task2(void *p)
 	while(1)
 	{
 		// Take semaphore
-		//OSTakeSema(&sem1);
+		OSTakeSema(&sem1);
 		
 		// Flash 5 times
 		
@@ -79,7 +79,7 @@ void task2(void *p)
 
 		digitalWrite(9, LOW);		
 		// Give sema2
-		//OSGiveSema(&sem2);
+		OSGiveSema(&sem2);
 	}
 }
 

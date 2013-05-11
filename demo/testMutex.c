@@ -30,6 +30,8 @@ unsigned int count=1;
 OSCond c1, c2;
 OSMutex mutex;
 
+/* This program demonstrates the use of mutex locks and conditional variables. It assumes that LEDs are connected to pins 6 and 9 */
+
 void task1(void *p)
 {
 	while(1)
@@ -73,7 +75,6 @@ void task2(void *p)
 		count+=2;
 		OSSignal(&c1);
 		OSGiveMutex(&mutex);
-//		OSSleep(50);
 	}
 }
 
@@ -92,7 +93,7 @@ int main()
 {
 	OSInit();
 	
-	// Create the queue
+	// Create the mutexes and conditional variables.
 	OSCreateMutex(&mutex);
 	OSCreateConditional(&c1);
 	OSCreateConditional(&c2);

@@ -61,7 +61,7 @@ Operating System Configuration: Configure OS clock frequency, scheduler type, et
 // Parameters for the task manager
 
 // Number of tasks
-#define OSTASK_COUNT		1
+#define OSTASK_COUNT		2
 
 // Maximum number of tasks. DO NOT MODIFY THIS
 #define OSMAX_TASKS			OSTASK_COUNT+1
