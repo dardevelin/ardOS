@@ -29,28 +29,40 @@
 TOSSema sema;
 unsigned char flag=1;
 
+/* 
+	This program demonstrates the use of semaphores from within ISRs, in particular the use of the OSSuspendScheduler and OSResumeScheduler calls.
+	
+	It assumes that LEDs are connected to pins 6 and 9, and that a pushbutton has been connected to pull pin 2 high when pressed 
+	The LED at pin 9 will flash at a rate of 4 times per second, while the LED at pin 6 will be toggled whenever you press the push button.
+*/
+
 void task1(void *p)
 {
 	
 	while(1)
 	{		
-		//OSTakeSema(&sema);
-		digitalWrite(6, HIGH);
+		OSTakeSema(&sema);
+		if(flag)
+			digitalWrite(6, HIGH);
+		else
+			digitalWrite(6, LOW);
+	}
+}
+
+void task2(void *p)
+{
+	while(1)
+	{
+		digitalWrite(9, HIGH);
 		OSSleep(125);
-		digitalWrite(6, LOW);	
+		digitalWrite(9, LOW);
 		OSSleep(125);		
 	}
 }
 
-
 ISR(INT0_vect)
 {
 	OSSuspendScheduler();
-	if(flag)
-		digitalWrite(9, HIGH);
-	else
-		digitalWrite(9, LOW);
-	
 	flag=!flag;
 	OSGiveSema(&sema);
 	OSResumeScheduler();
@@ -76,5 +88,6 @@ int main()
 	// Create a binary semaphore with initial value 0
 	OSInitSema(&sema, 0, 1);		
 	OSCreateTask(0, &t1Stack[29], task1, NULL);
+	OSCreateTask(1, &t2Stack[29], task2, NULL);
 	OSRun();
 }

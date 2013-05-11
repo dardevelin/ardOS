@@ -43,9 +43,9 @@ void task1(void *p)
 		for(unsigned char i=0; i<5; i++)
 		{
 			digitalWrite(6, LOW);
-			OSSleep(5);
+			OSSleep(125);
 			digitalWrite(6, HIGH);
-			OSSleep(5);			
+			OSSleep(125);			
 		}
 		
 		digitalWrite(6, LOW);
@@ -59,9 +59,6 @@ void task1(void *p)
 
 void task2(void *p)
 {
-//	unsigned int i=0, j = (unsigned int) p;
-
-
 	while(1)
 	{
 		// Take semaphore
