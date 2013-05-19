@@ -101,8 +101,7 @@ asm volatile (\
 "in r27, __SP_H__	\n\t"\
 "sts pxCurrentTCB+1, r27	\n\t"\
 "sts pxCurrentTCB, r26	\n\t"\
-"sei	\n\t" : : :\
-);
+"sei	\n\t" : :);
 
 #define portRESTORE_CONTEXT()\
 asm volatile (\
@@ -141,8 +140,7 @@ asm volatile (\
 "pop r1	\n\t"\
 "pop r0	\n\t"\
 "out __SREG__, r0\n\t"\
-"pop r0	\n\t": : "r" (pxCurrentTCB):\
-);
+"pop r0	\n\t": : "r" (pxCurrentTCB));
 
 // Sets up SP to point to the thread stack
 #define portSetStack()\
@@ -150,8 +148,7 @@ asm volatile(\
 	"cli	\n\t"\
 	"OUT __SP_L__, %A0	\n\t"\
 	"OUT __SP_H__, %B0	\n\t"\
-	"sei": : "r" (pxCurrentTCB):\
-)
+	"sei": : "r" (pxCurrentTCB))
 
 // Loads the starting address of the thread function onto the stack and
 // puts in the passed parameter into R25 and R24 as expected by the function.
@@ -164,8 +161,7 @@ asm volatile(\
 	"push r0	\n\t"\
 	"mov R25, %B1	\n\t"\
 	"mov R24, %A1	\n\t"\
-	"sei": : "r" (pxFuncPtr), "r" (pxFuncArg):\
-)
+	"sei": : "r" (pxFuncPtr), "r" (pxFuncArg))
 // Error handling
 unsigned int OSGetError()
 {
