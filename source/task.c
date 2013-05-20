@@ -39,19 +39,6 @@ void printProcQ(tQueue *q, tTCB *tasklist)
 	
 	unsigned char _trav=q->head, i;
 
-/*	for(i=0; i<q->len; i++)
-	{
-		if(i==q->head)
-			printf("> ");
-
-		printf("(%d, %d) ", q->qptr[i], tasklist[q->qptr[i]].prio);
-
-		if((i+1)%OSMAX_TASKS== q->tail)
-			printf("< ");
-
-	}
-	printf("\n");*/
-
 	for(i=0; i<q->ctr; i++)
 	{
 		printf("(%d %d) ", q->qptr[_trav], tasklist[q->qptr[_trav]].prio);
