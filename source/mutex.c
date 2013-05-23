@@ -23,7 +23,7 @@
    	along with ArdOS.  If not, see <http://www.gnu.org/licenses/>.
  */ 
 
-#include "ArdOS.h"
+#include "mutex.h"
 
 #if OSUSE_MUTEXES==1
 void OSCreateMutex(OSMutex *mutex)

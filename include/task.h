@@ -33,11 +33,10 @@
 #ifndef TASK_H_
 #define TASK_H_
 
-#ifndef uint8_t
-	#define uint8_t unsigned char
-#endif
 
 #include "ARDOSConfig.h"
+#include <stdint.h>
+#include <stdlib.h>
 
 // Definition for task control block
 typedef struct tc

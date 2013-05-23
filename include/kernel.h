@@ -29,6 +29,7 @@
 #ifndef KERNEL_H_
 #define KERNEL_H_
 
+#include "ArdOSConfig.h"
 #include "task.h"
 
 // Kernel variables

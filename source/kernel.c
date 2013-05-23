@@ -29,7 +29,8 @@
  */ 
 
 #include <stdlib.h>
-#include "ArdOS.h"
+#include <avr/interrupt.h>
+#include "kernel.h"
 
 // Stack pointer temp variable
 unsigned long pxCurrentTCB;
@@ -152,16 +153,33 @@ asm volatile(\
 
 // Loads the starting address of the thread function onto the stack and
 // puts in the passed parameter into R25 and R24 as expected by the function.
-#define portPushRetAddress()\
-asm volatile(\
-	"cli	\n\t"\
-	"mov r0, %A0	\n\t"\
-	"push r0	\n\t"\
-	"mov r0, %B0	\n\t"\
-	"push r0	\n\t"\
-	"mov R25, %B1	\n\t"\
-	"mov R24, %A1	\n\t"\
-	"sei": : "r" (pxFuncPtr), "r" (pxFuncArg))
+
+#if OSCPU_TYPE==AT168 || OSCPU_TYPE==AT328
+	#define portPushRetAddress()\
+	asm volatile(\
+		"cli	\n\t"\
+		"mov r0, %A0	\n\t"\
+		"push r0	\n\t"\
+		"mov r0, %B0	\n\t"\
+		"push r0	\n\t"\
+		"mov R25, %B1	\n\t"\
+		"mov R24, %A1	\n\t"\
+		"sei": : "r" (pxFuncPtr), "r" (pxFuncArg))
+#elif OSCPU_TYPE==AT1280 || OSCPU_TYPE==AT2560
+	#define portPushRetAddress()\
+	asm volatile(\
+		"cli	\n\t"\
+		"mov r0, %A0	\n\t"\
+		"push r0	\n\t"\
+		"mov r0, %B0	\n\t"\
+		"push r0	\n\t"\
+		"mov r0, %C0	\n\t"\
+		"push r0	\n\t"\
+		"mov R25, %B1	\n\t"\
+		"mov R24, %A1	\n\t"\
+		"sei": : "r" (pxFuncPtr), "r" (pxFuncArg))
+#endif
+
 // Error handling
 unsigned int OSGetError()
 {
@@ -453,6 +471,7 @@ unsigned long OSticks()
 	return _osticks;
 }
 
+#if OSCPU_TYPE == AT168 || OSCPU_TYPE == AT328
 void configureTimer()
 {
 	// Set fast PWM, OC2A and OC2B disconnected.
@@ -471,6 +490,28 @@ void startTimer()
 	TCCR2B=0b00000100;
 	sei();
 }
+
+#elif OSCPU_TYPE==AT1280 || OSCPU_TYPE==AT2560
+
+void configureTimer()
+{
+	// Set fast PWM, OC2A and OC2B disconnected.
+	TCCR2A=0b00000011;
+	OCR2B=255;
+	TCNT2=0;
+	
+	// Enable TOV2
+	TIMSK2|=0b1;
+	
+}
+
+void startTimer()
+{
+	// Start timer giving frequency of approx 1000 Hz
+	TCCR2B=0b00000100;
+	sei();
+}
+#endif
 
 
 // OS Initialization and Starting Routines

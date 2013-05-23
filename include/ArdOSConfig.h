@@ -43,6 +43,15 @@ Operating System Configuration: Configure OS clock frequency, scheduler type, et
 #define OS_RMS		2
 #define OS_EDF		3
 
+// Supported CPU Types
+#define AT168		0
+#define AT328		1
+#define AT1280		2
+#define AT2560		3
+
+// Configure the CPU Type
+#define OSCPU_TYPE	AT2560
+
 // Quantum parameters for OS_RR
 #define OSMIN_QUANTUM		5		// Minimum execution time in ms
 #define OSMAX_QUANTUM		500		// Maximum execution time in ms

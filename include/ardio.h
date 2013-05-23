@@ -35,9 +35,10 @@
 
 	#define F_CPU	16000000
 	#include "ArdOSConfig.h"
+	#include "kernel.h"
 	
 	#include <avr/io.h>
-	#include <avr/interrupt.h>
+	//#include <avr/interrupt.h>
 
 #if USEIO == 1
 #if USEGPIO == 1
@@ -76,6 +77,31 @@
 	#define DIRB	&DDRB
 	#define DIRC	&DDRC
 	#define DIRD	&DDRD
+	
+#if OSCPU_TYPE==AT1280 || OSCPU_TYPE==AT2560
+	// Mega ports
+	#define DIRA	&DDRA
+	#define DIRE	&DDRE
+	#define DIRG	&DDRG
+	#define DIRH	&DDRH
+	#define DIRJ	&DDRJ
+	#define DIRL	&DDRL
+	
+	#define OUTA	&PORTA
+	#define OUTE	&PORTE
+	#define OUTG	&PORTG
+	#define OUTH	&PORTH
+	#define OUTJ	&PORTJ
+	#define OUTL	&PORTL
+	
+	#define INA		&PINA
+	#define INE		&PINE
+	#define ING		&PING
+	#define INH		&PINH
+	#define INJ		&PINJ
+	#define INL		&PINL
+	
+#endif
 	
 	#define HIGH	1
 	#define LOW		0

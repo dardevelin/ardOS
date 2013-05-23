@@ -27,7 +27,10 @@
 #ifndef SEMA_H_
 #define SEMA_H_
 
-#include "ArdOS.h"
+#include "ArdOSConfig.h"
+#include "task.h"
+#include "kernel.h"
+
 
 // Counting and binary semaphore services
 

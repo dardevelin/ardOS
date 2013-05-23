@@ -8,7 +8,9 @@
 
 #ifndef MUTEX_H_
 #define MUTEX_H_
-#include "ArdOS.h"
+#include "ArdOSConfig.h"
+#include "task.h"
+#include "kernel.h"
 
 #if OSUSE_MUTEXES==1
 typedef struct tmut

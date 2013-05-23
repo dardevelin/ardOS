@@ -24,7 +24,7 @@
 
  */ 
 
-#include "ArdOS.h"
+#include "queue.h"
 
 #if OSUSE_QUEUES==1 || OSUSE_PRIOQUEUES==1
 

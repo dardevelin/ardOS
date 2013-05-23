@@ -29,7 +29,7 @@
 //#if USEIO == 1
 // Need to fix timer2 code
 
-#include "ArdOS.h"
+#include "ardio.h"
 #include <avr/interrupt.h>
 // GPIO routines.
 
@@ -113,9 +113,14 @@ void digitalWrite(int pin, int val)
 // Initialize the ADC
 void initADC()
 {
-	// Turn off the power reduction register
-	PRR&=~(0b1 << PRADC);
+	#if OSCPU_TYPE==AT168 || OSCPU_TYPE==AT328
+		// Turn off the power reduction register
+		PRR&=~(0b1 << PRADC);
+	#elif  OSCPU_TYPE==AT1280 || OSCPU_TYPE==AT2560
 	
+		PRR0&=~(0b1 << PRADC);
+			
+	#endif
 	// Configure for 125Hz ADC clock, no interrupts.
 	ADCSRA=0b10000111;
 }	
@@ -123,6 +128,7 @@ void initADC()
 // Read the ADC using non-interrupt busywait
 int getADC(int portNum)
 {
+	#if OSCPU_TYPE==AT168 || OSCPU_TYPE==AT328
 	ADMUX=0b01000000 + (portNum & 0x7);
 	ADCSRA|=(1 << ADSC);
 	
@@ -134,6 +140,8 @@ int getADC(int portNum)
 	// Now read and return value
 	int lo=ADCL;
 	return (ADCH << 8)+lo;
+	#endif
+	return 0;
 }
 
 #if USEARDADC == 1 && USEADC==1 && USEIO==1
@@ -203,12 +211,25 @@ void setupPWM(volatile uint8_t *TCNT, volatile uint8_t *TCCRA, volatile uint8_t 
 {
 	*TCNT=0;
 
-#if ((PIN5PWM==1) || (PIN6PWM==1)) && USEPWM==1 && USEIO==1	
-	PRR &= ~(1 << PRTIM0);
-#endif
+#if OSCPU_TYPE==AT168 || OSCPU_TYPE==AT328
+	#if ((PIN5PWM==1) || (PIN6PWM==1)) && USEPWM==1 && USEIO==1	
+		PRR &= ~(1 << PRTIM0);
+	#endif
 
-#if (PIN11PWM==1) && USEPWM==1 && USEIO==1
-	PRR &= ~(1 << PRTIM2);
+	#if (PIN11PWM==1) && USEPWM==1 && USEIO==1
+		PRR &= ~(1 << PRTIM2);
+	#endif
+
+#elif OSCPU_TYPE==AT1280 || OSCPU_TYPE==AT2560
+
+	#if ((PIN5PWM==1) || (PIN6PWM==1)) && USEPWM==1 && USEIO==1
+	PRR0 &= ~(1 << PRTIM0);
+	#endif
+
+	#if (PIN11PWM==1) && USEPWM==1 && USEIO==1
+	PRR0 &= ~(1 << PRTIM2);
+	#endif
+
 #endif
 
 	if(TCNT==NULL)
@@ -273,9 +294,12 @@ void startPWM(volatile uint8_t *TCCRB)
 	{
 		if(TCNT==NULL)
 			return;
-			
+	#if OSCPU_TYPE==AT168 || OSCPU_TYPE==AT328
 		PRR &= ~(1 << PRTIM1);
-		
+	#elif OSCPU_TYPE==AT1280 || OSCPU_TYPE==AT2560
+		PRR0 &= ~(1<<PRTIM1);
+	#endif
+	
 		*TCNT=0;
 		// 10 bit phase correct PWM
 		if(!compreg)

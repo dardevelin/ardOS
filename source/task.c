@@ -27,26 +27,9 @@
     	along with ArdOS.  If not, see <http://www.gnu.org/licenses/>.
  */ 
 
-#include <stdio.h>
 #include "kernel.h"
 #include "task.h"
 #include "ArdOSConfig.h"
-
-// Debugging code.
-#if OS_DEBUG == 1
-void printProcQ(tQueue *q, tTCB *tasklist)
-{
-	
-	unsigned char _trav=q->head, i;
-
-	for(i=0; i<q->ctr; i++)
-	{
-		printf("(%d %d) ", q->qptr[_trav], tasklist[q->qptr[_trav]].prio);
-		_trav=(_trav+1)%q->len;
-	}
-}
-#endif
-
 	
 // Priority queue routines
 void prioEnq(int pid, tTCB *tasklist, tQueue *q)

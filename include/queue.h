@@ -27,7 +27,10 @@
 #ifndef QUEUE_H_
 #define QUEUE_H_
 
-#include "ArdOS.h"
+#include "ArdOSConfig.h"
+#include "task.h"
+#include "kernel.h"
+
 // Provides queue operations. Due to space constraints queues can have multiple writers but only one reader.
 
 #if OSUSE_QUEUES==1 || OSUSE_PRIOQUEUES==1

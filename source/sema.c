@@ -23,7 +23,6 @@
    	along with ArdOS.  If not, see <http://www.gnu.org/licenses/>.
  */ 
 
-#include "ardOS.h"
 #include "sema.h"
 
 #if OSUSE_SEMA==1
