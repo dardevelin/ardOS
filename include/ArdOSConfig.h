@@ -50,7 +50,7 @@ Operating System Configuration: Configure OS clock frequency, scheduler type, et
 #define AT2560		3
 
 // Configure the CPU Type
-#define OSCPU_TYPE	AT2560
+#define OSCPU_TYPE	AT328
 
 // Quantum parameters for OS_RR
 #define OSMIN_QUANTUM		5		// Minimum execution time in ms
