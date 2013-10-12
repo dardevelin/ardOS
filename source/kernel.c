@@ -192,12 +192,12 @@ void OSSetError(unsigned int errno)
 }
 
 // Atomicity Control
-inline void OSMakeAtomic()
+ALWAYS_INLINE void OSMakeAtomic()
 {
 	cli();
 }
 
-inline void OSExitAtomic()
+ALWAYS_INLINE void OSExitAtomic()
 {
 	sei();
 }
