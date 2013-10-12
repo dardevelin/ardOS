@@ -192,12 +192,12 @@ void OSSetError(unsigned int errno)
 }
 
 // Atomicity Control
-inline void OSMakeAtomic()
+ALWAYS_INLINE void OSMakeAtomic()
 {
 	cli();
 }
 
-inline void OSExitAtomic()
+ALWAYS_INLINE void OSExitAtomic()
 {
 	sei();
 }
@@ -330,7 +330,7 @@ void OSScheduler()
 
 }
 
-inline void runTask() 
+ALWAYS_INLINE void runTask() 
 {
 	// Check if this is the first run of this process
 	if(_tasks[_running].status & _OS_FIRSTRUN)
