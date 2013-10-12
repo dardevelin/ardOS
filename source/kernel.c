@@ -330,7 +330,7 @@ void OSScheduler()
 
 }
 
-inline void runTask() 
+ALWAYS_INLINE void runTask() 
 {
 	// Check if this is the first run of this process
 	if(_tasks[_running].status & _OS_FIRSTRUN)
