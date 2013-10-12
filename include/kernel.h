@@ -53,6 +53,9 @@ extern unsigned char _running;
 #define OS_ERR_BAD_PRIO		2	// Bad priority number (RR)
 #define OS_ERR_DUP_PRIO		3	// Duplicate priority number (Fixed Priority)
 
+/* Strict inline macro */
+#define ALWAYS_INLINE inline __attribute__((always_inline))
+
 /* Private OS Functions. Do not call these */
 
 // Push ISR epilog return address onto the active stack
